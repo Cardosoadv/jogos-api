@@ -33,11 +33,14 @@ abstract class BaseRepository
     }
 
     /**
+     * Return type is widened to `array|object|null` (instead of `?array`)
+     * because models whose `$returnType` is an Entity (e.g. PlayerModel)
+     * return an object here, not a plain array.
      *
      * @param int $id
-     * @return ?array
+     * @return array|object|null
      */
-    public function findById(int $id): ?array
+    public function findById(int $id)
     {
         return $this->model->find($id);
     }

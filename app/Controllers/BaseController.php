@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\BaseService;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -26,6 +27,12 @@ abstract class BaseController extends Controller
      */
 
     // protected $session;
+    protected BaseService $service;
+
+    public function __construct(BaseService $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * @return void
