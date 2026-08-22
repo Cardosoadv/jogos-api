@@ -1,11 +1,28 @@
 # Relatório de Evolução do Sistema
 
-**Versão Atual do Sistema**: `1.3.1`
+**Versão Atual do Sistema**: `1.4.0`
 **Data**: 2026-08-22
 
 ---
 
 ## Histórico de Alterações e Versões
+
+### [v1.4.0] - 2026-08-22
+#### Adicionado:
+- **Módulo de Jogos (CRUD completo com imagem de capa)**:
+  - Criada a tabela `games` (migration `2026-08-22-210000_CreateGamesTable`) com `title`, `description`, `category`, `cover_image`, `active` e timestamps.
+  - Criados `App\Entities\Game`, `App\Models\GameModel` (com validação de `title`, `description`, `category`, `cover_image`, `active`), `App\Repositories\GameRepository` e `App\Services\GameService` (validação de payload com mensagens de erro por campo em `create`/`update`).
+  - Criado `App\Controllers\Api\Game` expondo em `/api/games`:
+    - `GET /api/games` e `GET /api/games/(:id)` — catálogo **público**, sem autenticação.
+    - `POST /api/games`, `PUT`/`PATCH /api/games/(:id)`, `DELETE /api/games/(:id)` e `POST /api/games/(:id)/cover` — **restritos a administradores**.
+  - **Controle de acesso**: adicionada a permissão `games.manage` em `app/Config/AuthGroups.php`, concedida aos grupos `admin` e `superadmin` (via `games.*`). O controller verifica `auth()->user()->can('games.manage')` e responde `403 Forbidden` para jogadores comuns.
+  - Upload de imagem de capa segue o mesmo padrão do avatar do jogador: `multipart/form-data`, validação de tipo/tamanho (`is_image`, `mime_in`, `max_size[2048]`) e armazenamento em `public/uploads/games/`.
+  - Adicionados arquivos de idioma `Game.php` em `en`, `pt-BR` e `es`.
+  - Validado manualmente o fluxo completo (registro de jogador, promoção a admin, geração de token de acesso, criação/edição/upload de capa/exclusão) e a suíte PHPUnit (`vendor/bin/phpunit`) permanece verde.
+- **Correção**:
+  - Corrigido bug nas rotas de `api/players` em `app/Routes/Routes.php`: as rotas referenciavam o controller inexistente `PlayerController` quando a classe real é `App\Controllers\Api\Player`, o que quebrava todo o módulo de Jogadores em tempo de execução. Rotas corrigidas para `Player::*`.
+- **Configurações do Sistema**:
+  - Atualizada a versão do sistema em `composer.json`, `README.md` e `relatorio_evolucao.md` para `1.4.0`.
 
 ### [v1.3.1] - 2026-08-22
 #### Adicionado / Alterado:

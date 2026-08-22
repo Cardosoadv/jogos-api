@@ -1,6 +1,6 @@
 # Game Portal - RESTful API
 
-**System Version**: `1.3.1`
+**System Version**: `1.4.0`
 
 ## 🎯 Project Goals & Objectives
 
