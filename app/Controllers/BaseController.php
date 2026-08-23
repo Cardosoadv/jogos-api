@@ -26,10 +26,9 @@ abstract class BaseController extends Controller
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
 
-    // protected $session;
-    protected BaseService $service;
+    protected ?BaseService $service = null;
 
-    public function __construct(BaseService $service)
+    public function __construct(?BaseService $service = null)
     {
         $this->service = $service;
     }

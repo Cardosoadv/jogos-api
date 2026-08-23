@@ -1,11 +1,32 @@
 # Relatório de Evolução do Sistema
 
-**Versão Atual do Sistema**: `1.4.0`
-**Data**: 2026-08-22
+**Versão Atual do Sistema**: `1.5.0`
+**Data**: 2026-08-23
 
 ---
 
 ## Histórico de Alterações e Versões
+
+### [v1.5.0] - 2026-08-23
+- **Autenticação por Sessão Shield para REST & SPA**:
+  - Criado o controlador `App\Controllers\Api\Auth` em `app/Controllers/Api/Auth.php` expondo endpoints de autenticação por sessão:
+    - `POST /api/auth/login`: autentica credenciais (e-mail ou username + senha) utilizando `auth('session')->attempt()`, gera cookie de sessão e retorna dados do usuário autenticado e permissão `isAdmin` (`games.manage`).
+    - `POST /api/auth/logout`: encerra a sessão ativa através de `auth('session')->logout()`.
+    - `GET /api/auth/me`: recupera os dados da sessão do usuário autenticado no momento.
+  - Criado o filtro `App\Filters\ApiSessionFilter` em `app/Filters/ApiSessionFilter.php` e registrado como alias `api-session` em `app/Config/Filters.php`, retornando resposta JSON com HTTP 401 para requisições não autenticadas em vez de redirecionamento HTTP 302 para página HTML.
+  - Atualizadas as rotas em `app/Routes/Routes.php` migrando a proteção das rotas de jogadores (`api/players`) e jogos (`api/games`) do filtro `tokens` para `api-session`.
+  - Habilitado `supportsCredentials => true` com declaração explícita de origens, cabeçalhos (`allowedHeaders`) e métodos (`allowedMethods`) em `app/Config/Cors.php` (eliminando o uso de wildcard `*` incompatível com credenciais no CodeIgniter 4).
+  - Corrigido o construtor de `App\Controllers\BaseController` tornando `$service` opcional para permitir instanciação padrão pelo roteador do CodeIgniter.
+  - Habilitado `validFields = ['email', 'username']` em `app/Config/Auth.php`.
+- **Configurações do Sistema**:
+  - Atualizada a versão do sistema em `README.md` e `relatorio_evolucao.md` para `1.5.0`.
+
+### [v1.4.1] - 2026-08-23
+- **Suporte Completo a CORS (Cross-Origin Resource Sharing)**:
+  - Habilitado o filtro de CORS em `app/Config/Filters.php` nas diretivas especiais `required['before']`, `required['after']`, `globals['before']` e `globals['after']`, garantindo o processamento de requisições preflight `OPTIONS` mesmo antes da resolução de rotas.
+  - Configurado `app/Config/Cors.php` liberando origens (`allowedOrigins => ['*']`), métodos HTTP (`allowedMethods => ['*']`) e cabeçalhos (`allowedHeaders => ['*']`), viabilizando a comunicação direta entre SPAs locais (ex.: Vite em `http://localhost:5173`) e a API REST em `http://localhost:8080`.
+- **Configurações do Sistema**:
+  - Atualizada a versão do sistema em `README.md` e `relatorio_evolucao.md` para `1.4.1`.
 
 ### [v1.4.0] - 2026-08-22
 #### Adicionado:

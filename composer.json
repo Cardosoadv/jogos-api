@@ -1,7 +1,11 @@
 {
     "name": "portal-jogos/api",
     "description": "RESTful API backend engine for the Game Portal, managing player authentication, game catalog, player profiles, wallet/transactions, leaderboards, and game sessions using CodeIgniter 4.",
-    "version": "1.4.0",
+    "authors": [
+        {
+            "name": "Cardosoadv"
+        }
+    ],
     "license": "MIT",
     "type": "project",
     "keywords": [
