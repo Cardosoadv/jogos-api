@@ -78,6 +78,7 @@ class AuthGroups extends ShieldAuthGroups
         'users.create'        => 'Can create new non-admin users',
         'users.edit'          => 'Can edit existing non-admin users',
         'users.delete'        => 'Can delete existing non-admin users',
+        'games.manage'        => 'Can create, edit and delete games in the catalog',
         'beta.access'         => 'Can access beta-level features',
     ];
 
@@ -93,6 +94,7 @@ class AuthGroups extends ShieldAuthGroups
         'superadmin' => [
             'admin.*',
             'users.*',
+            'games.*',
             'beta.*',
         ],
         'admin' => [
@@ -100,6 +102,7 @@ class AuthGroups extends ShieldAuthGroups
             'users.create',
             'users.edit',
             'users.delete',
+            'games.manage',
             'beta.access',
         ],
         'developer' => [
